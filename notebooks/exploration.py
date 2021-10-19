@@ -133,4 +133,76 @@ for line in train_lines:
 
 subplt.legend()
 
+# %% [markdown]
+# ### Modeling
+
+# %%
+from cta.datasets import get_ridership_dataset
+
+import torch
+from torchcast.utils.data import TimeSeriesDataset
+from torchcast.kalman_filter import KalmanFilter
+from torchcast.process import LocalLevel, LocalTrend, Season
+
+# %% [markdown]
+# Move all of the above cleaning/merging code to the `datasets` module, use that here to get our df
+
+# %%
+df = get_ridership_dataset()
+
+#Drop pre-covid data
+df = df[df['date'] < pd.Timestamp('2020-01-01')].copy()
+
+SPLIT_DT = pd.Timestamp('2019-01-01')
+df['dataset'] = (df['date'] >= SPLIT_DT).map({False: 'train', True: 'validation'})
+
+# %%
+train_ds = TimeSeriesDataset.from_dataframe(
+    df.query("dataset == 'train'"),
+    group_colname='line', 
+    time_colname='date',
+    measure_colnames=['rides'],
+    dt_unit='D'
+)
+
+eval_ds = TimeSeriesDataset.from_dataframe(
+    df,
+    group_colname='line', 
+    time_colname='date',
+    measure_colnames=['rides'],
+    dt_unit='D'
+)
+
+# %%
+kf = KalmanFilter(
+    measures=['rides'], 
+    processes=[
+        # seasonal processes:
+        Season(id='day_in_week', period=24*7, dt_unit='h', K=3, fixed=True),
+        Season(id='day_in_year', period=24*365.25, dt_unit='h', K=8, fixed=True),
+        # long-running trend:
+        LocalTrend(id='trend'),
+        # 'local' processes: allow temporary deviations that decay 
+        LocalLevel(id='level', decay=True)
+    ]
+)
+
+# %%
+kf.fit(
+    train_ds.tensors[0],
+    start_offsets=train_ds.start_datetimes
+)
+
+# %%
+with torch.no_grad():
+    pred = kf(
+        eval_ds.tensors[0],
+        start_offsets=eval_ds.start_datetimes
+    ) 
+    df_pred = pred.to_dataframe(eval_ds)
+df_pred = df_pred.loc[~df_pred['actual'].isnull(),:].reset_index(drop=True)
+
+# %%
+df_pred
+
 # %%
