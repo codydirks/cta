@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 from cta.config import RAW_DATA_DIR
 from cta.etl import fetch_daily_ridership_data, fetch_station_info
 

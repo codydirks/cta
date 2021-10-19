@@ -1,7 +1,6 @@
 import os
 import torch
 
-
 from cta.config import ARTIFACTS_DIR, PREDICTIONS_DIR
 from cta.datasets import CTADataset
 from cta.etl import load_processed_df
