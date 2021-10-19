@@ -6,7 +6,7 @@ class CTAModel(KalmanFilter):
     measure_col_name = 'rides'
 
     def __init__(self):
-        return KalmanFilter(
+        super().__init__(
             measures=[self.measure_col_name],
             processes=[
                 # seasonal processes:
@@ -20,7 +20,7 @@ class CTAModel(KalmanFilter):
         )
 
     def fit(self, ds):
-        return self.fit(
+        return super().fit(
             ds.tensors[0],
             start_offsets=ds.start_datetimes
         )
