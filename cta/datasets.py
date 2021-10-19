@@ -1,6 +1,8 @@
 import pandas as pd
-from cta.etl import fetch_station_info, fetch_daily_ridership_data
+from cta.etl import load_raw_station_info, load_raw_riders_df
 from cta.config import TRAIN_LINES
+
+from torchcast.utils.data import TimeSeriesDataset
 
 
 def clean_station_info(df):
@@ -21,9 +23,9 @@ def clean_station_info(df):
     return df
 
 
-def get_station_line_info():
-    station_info_df = fetch_station_info()
-    station_info_df = clean_station_info(station_info_df)
+def process_station_line_info():
+    raw_station_info_df = load_raw_station_info()
+    station_info_df = clean_station_info(raw_station_info_df)
 
     station_info_cols = ['station_name', 'station_descriptive_name', 'map_id']
 
@@ -61,7 +63,7 @@ def clean_rider_info(df):
     assert [i in df.columns for i in ('date', 'daytype', 'station_id')]
     df = df.copy()
 
-    stations = get_station_line_info()
+    stations = process_station_line_info()
 
     df['date'] = pd.to_datetime(df['date'], format='%m/%d/%Y')
 
@@ -82,7 +84,7 @@ def clean_rider_info(df):
 
 
 def get_ridership_dataset():
-    df = fetch_daily_ridership_data()
+    df = load_raw_riders_df()
 
     df = clean_rider_info(df)
 
@@ -92,3 +94,18 @@ def get_ridership_dataset():
     df = df.rename({'line_corrected_ridership': 'rides'}, axis=1)
 
     return df
+
+
+class CTADataset(TimeSeriesDataset):
+    group_colname = 'line'
+    time_colname = 'date'
+    measure_colnames = ['rides']
+
+    def __init__(self, df):
+        return TimeSeriesDataset.from_dataframe(
+            df,
+            group_colname=self.group_colname,
+            time_colname=self.time_colname,
+            measure_colnames=self.measure_colnames,
+            dt_unit='D'
+        )

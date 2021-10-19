@@ -1,5 +1,7 @@
 
+import os
 import pandas as pd
+from cta.config import RAW_DATA_DIR, PROCESSED_DATA_DIR
 
 import urllib.parse as urlparse
 
@@ -29,3 +31,18 @@ def fetch_daily_ridership_data():
 def fetch_station_info():
     resource_id = '8pix-ypme'
     return fetch_dataframe_from_resource_id(resource_id)
+
+
+def load_raw_station_info():
+    path = os.path.join(RAW_DATA_DIR, 'raw_station_info_df.csv')
+    return pd.read_csv(path, index_col=0)
+
+
+def load_raw_riders_df():
+    path = os.path.join(RAW_DATA_DIR, 'raw_riders_df.csv')
+    return pd.read_csv(path, index_col=0)
+
+
+def load_processed_df():
+    path = os.path.join(PROCESSED_DATA_DIR, 'daily_ridership.csv')
+    return pd.read_csv(path, index_col=0)
