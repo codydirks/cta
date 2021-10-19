@@ -25,7 +25,7 @@ def main():
         df_pred = pred.to_dataframe(eval_ds)
     df_pred = df_pred.loc[~df_pred['actual'].isnull(), :].reset_index(drop=True)
 
-    os.makedirs(PREDICTIONS_DIR, exists_ok=True)
+    os.makedirs(PREDICTIONS_DIR, exist_ok=True)
 
     output_path = os.path.join(PREDICTIONS_DIR, 'ridership_predictions.csv')
     pd.to_csv(df_pred, output_path)

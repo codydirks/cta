@@ -9,7 +9,7 @@ def main():
 
     raw_station_info_df = fetch_station_info()
 
-    os.makedirs(RAW_DATA_DIR, exists_ok=True)
+    os.makedirs(RAW_DATA_DIR, exist_ok=True)
 
     pd.to_csv(raw_riders_df, os.path.join(RAW_DATA_DIR, 'raw_riders_df.csv'))
     pd.to_csv(raw_station_info_df, os.path.join(RAW_DATA_DIR, 'raw_station_info_df.csv'))
