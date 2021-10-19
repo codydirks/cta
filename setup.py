@@ -8,6 +8,7 @@ setuptools.setup(
     packages=setuptools.find_packages(where='cta'),
     install_requires=[
         'pandas',
-        'jupytext'
+        'jupytext',
+        'torchcast @ git+https://github.com/strongio/torchcast.git@develop#egg=torchcast'
     ]
 )
