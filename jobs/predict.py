@@ -1,6 +1,5 @@
 import os
 import torch
-import pandas as pd
 
 
 from cta.config import ARTIFACTS_DIR, PREDICTIONS_DIR
