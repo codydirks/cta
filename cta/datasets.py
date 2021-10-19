@@ -101,11 +101,12 @@ class CTADataset(TimeSeriesDataset):
     time_colname = 'date'
     measure_colnames = ['rides']
 
-    def __init__(self, df):
+    @classmethod
+    def from_dataframe(cls, df):
         return TimeSeriesDataset.from_dataframe(
             df,
-            group_colname=self.group_colname,
-            time_colname=self.time_colname,
-            measure_colnames=self.measure_colnames,
+            group_colname=cls.group_colname,
+            time_colname=cls.time_colname,
+            measure_colnames=cls.measure_colnames,
             dt_unit='D'
         )
