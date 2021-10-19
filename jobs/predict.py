@@ -28,7 +28,7 @@ def main():
     os.makedirs(PREDICTIONS_DIR, exist_ok=True)
 
     output_path = os.path.join(PREDICTIONS_DIR, 'ridership_predictions.csv')
-    pd.to_csv(df_pred, output_path)
+    df_pred.to_csv(output_path)
 
 
 if __name__ == '__main__':

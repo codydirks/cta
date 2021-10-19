@@ -11,8 +11,8 @@ def main():
 
     os.makedirs(RAW_DATA_DIR, exist_ok=True)
 
-    pd.to_csv(raw_riders_df, os.path.join(RAW_DATA_DIR, 'raw_riders_df.csv'))
-    pd.to_csv(raw_station_info_df, os.path.join(RAW_DATA_DIR, 'raw_station_info_df.csv'))
+    raw_riders_df.to_csv(os.path.join(RAW_DATA_DIR, 'raw_riders_df.csv'))
+    raw_station_info_df.to_csv(os.path.join(RAW_DATA_DIR, 'raw_station_info_df.csv'))
 
 
 if __name__ == '__main__':
