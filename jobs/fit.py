@@ -23,6 +23,7 @@ def main():
 
     model.fit(train_ds)
 
+    os.makedirs(ARTIFACTS_DIR, exist_ok=True)
     output_path = os.path.join(ARTIFACTS_DIR, "cta_model.pt")
     torch.save(model.state_dict(), output_path)
 
