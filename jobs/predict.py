@@ -12,7 +12,7 @@ from cta.model import CTAModel
 def main():
     df = load_processed_df()
 
-    eval_ds = CTADataset(df)
+    eval_ds = CTADataset.from_dataframe(df)
 
     model = CTAModel()
     model.load_state_dict(torch.load(os.path.join(ARTIFACTS_DIR, "cta_model.pt")))

@@ -1,5 +1,6 @@
 import os
 import torch
+import pandas as pd
 
 from cta.config import ARTIFACTS_DIR, SPLIT_DT
 from cta.datasets import CTADataset
@@ -9,13 +10,14 @@ from cta.model import CTAModel
 
 def main():
     df = load_processed_df()
+    df['date'] = pd.to_datetime(df['date'])
 
     # For temporary speed-up purposes, only consider 1 year of training data.
     # This will yield bad predictions if left in.
 
     df = df[df['date'] >= SPLIT_DT.replace(year=SPLIT_DT.year-1)]
 
-    train_ds = CTADataset(df.query("dataset == 'train"))
+    train_ds = CTADataset.from_dataframe(df.query("dataset == 'train'"))
 
     model = CTAModel()
 
