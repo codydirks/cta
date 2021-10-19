@@ -14,7 +14,7 @@ def main():
 
     df['dataset'] = (df['date'] >= SPLIT_DT).map({False: 'train', True: 'validation'})
 
-    os.makedirs(PROCESSED_DATA_DIR, exists_ok=True)
+    os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
 
     output_path = os.path.join(PROCESSED_DATA_DIR, 'daily_ridership.csv')
     pd.to_csv(df, output_path)
