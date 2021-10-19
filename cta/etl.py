@@ -40,9 +40,13 @@ def load_raw_station_info():
 
 def load_raw_riders_df():
     path = os.path.join(RAW_DATA_DIR, 'raw_riders_df.csv')
+    df = pd.read_csv(path_index_col=0)
+    df['date'] = pd.to_datetime(df['date'])
     return pd.read_csv(path, index_col=0)
 
 
 def load_processed_df():
     path = os.path.join(PROCESSED_DATA_DIR, 'daily_ridership.csv')
+    df = pd.read_csv(path_index_col=0)
+    df['date'] = pd.to_datetime(df['date'])
     return pd.read_csv(path, index_col=0)
