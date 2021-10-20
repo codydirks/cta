@@ -2,34 +2,34 @@ import os
 import pandas as pd
 from cta.config import RAW_DATA_DIR, PROCESSED_DATA_DIR
 
-import urllib.parse as urlparse
+from sodapy import Socrata
 
-API_ENDPOINT = 'https://data.cityofchicago.org/api/views'
-DEFAULT_QUERY_PARAMS = {'accessType': 'DOWNLOAD', 'api_foundry': 'true'}
-
-
-def generate_url(resource_id: str, query_params: dict = DEFAULT_QUERY_PARAMS):
-    base_url = f'{API_ENDPOINT}/{resource_id}/rows.csv'
-    parsed = list(urlparse.urlparse(base_url))
-    parsed[4] = urlparse.urlencode(query_params)
-    url = urlparse.urlunparse(parsed)
-    return url
+API_ENDPOINT = 'data.cityofchicago.org'
 
 
-def fetch_dataframe_from_resource_id(resource_id):
-    url = generate_url(resource_id)
-    df = pd.read_csv(url)
+def fetch_dataframe_from_resource_id(resource_id, limit: int = None):
+    client = Socrata("data.cityofchicago.org", None)
+    kwargs = {'content_type': 'csv'}
+    if limit is not None:
+        limit = int(limit)
+        kwargs['limit'] = limit
+        results = client.get(resource_id, **kwargs)
+    else:
+        results = sum(client.get_all(resource_id, **kwargs), [])
+    headers = results[0]
+    data = results[1:]
+    df = pd.DataFrame.from_records(data, columns=headers)
     return df
 
 
-def fetch_daily_ridership_data():
-    resource_id = '5neh-572f'
-    return fetch_dataframe_from_resource_id(resource_id)
+def fetch_daily_ridership_data(limit: int = None):
+    resource_id = "5neh-572f"
+    return fetch_dataframe_from_resource_id(resource_id, limit)
 
 
-def fetch_station_info():
+def fetch_station_info(limit: int = None):
     resource_id = '8pix-ypme'
-    return fetch_dataframe_from_resource_id(resource_id)
+    return fetch_dataframe_from_resource_id(resource_id, limit)
 
 
 def load_raw_station_info():

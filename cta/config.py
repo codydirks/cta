@@ -1,11 +1,14 @@
 import os
+from dotenv import load_dotenv
 import pandas as pd
 
 from pathlib import Path
 
 import cta
 
+
 PROJECT_DIR = Path(cta.__file__).parent.parent
+load_dotenv(os.path.join(PROJECT_DIR, '.env'))
 
 DATA_DIR = os.path.join(PROJECT_DIR, 'data')
 

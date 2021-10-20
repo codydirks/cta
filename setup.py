@@ -7,9 +7,11 @@ setuptools.setup(
     author='Cody Dirks',
     packages=setuptools.find_packages(where='cta'),
     install_requires=[
+        'python-dotenv',
         'pandas',
         'jupytext',
         'torchcast @ git+https://github.com/strongio/torchcast.git@develop#egg=torchcast',
-        'mock'
+        'mock',
+        'sodapy'
     ]
 )
