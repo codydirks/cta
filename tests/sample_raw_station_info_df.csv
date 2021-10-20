@@ -1,0 +1,11 @@
+,STOP_ID,DIRECTION_ID,STOP_NAME,STATION_NAME,STATION_DESCRIPTIVE_NAME,MAP_ID,ADA,RED,BLUE,G,BRN,P,Pexp,Y,Pnk,O,Location
+279,30077,W,Forest Park (Terminal Arrival),Forest Park,Forest Park (Blue Line),40390,True,False,True,False,False,False,False,False,False,False,"(41.874257, -87.817318)"
+212,30016,N,Sheridan (Howard-bound),Sheridan,Sheridan (Red Line),40080,False,True,False,False,False,False,False,False,False,False,"(41.953775, -87.654929)"
+120,30232,S,Wellington (Loop-bound),Wellington,Wellington (Brown & Purple Lines),41210,True,False,False,False,True,False,True,False,False,False,"(41.936033, -87.653266)"
+9,30263,E,Oak Park (63rd-bound),Oak Park,Oak Park (Green Line),41350,False,False,False,True,False,False,False,False,False,False,"(41.886988, -87.793783)"
+258,30277,N,Addison (Kimball-bound),Addison,Addison (Brown Line),41440,True,False,False,False,True,False,False,False,False,False,"(41.947028, -87.674642)"
+80,30118,W,Kostner (54th/Cermak-bound),Kostner,Kostner (Pink Line),40600,True,False,False,False,False,False,False,False,True,False,"(41.853751, -87.733258)"
+71,30200,W,Polk (54th/Cermak-bound),Polk,Polk (Pink Line),41030,True,False,False,False,False,False,False,False,True,False,"(41.871551, -87.66953)"
+218,30076,E,Forest Park (O'Hare-bound),Forest Park,Forest Park (Blue Line),40390,True,False,True,False,False,False,False,False,False,False,"(41.874257, -87.817318)"
+239,30218,W,King Drive (Harlem-bound),King Drive,King Drive (Green Line),41140,True,False,False,True,False,False,False,False,False,False,"(41.78013, -87.615546)"
+283,30254,S,Paulina (Loop-bound),Paulina,Paulina (Brown Line),41310,True,False,False,False,True,False,False,False,False,False,"(41.943623, -87.670907)"

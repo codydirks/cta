@@ -9,6 +9,7 @@ setuptools.setup(
     install_requires=[
         'pandas',
         'jupytext',
-        'torchcast @ git+https://github.com/strongio/torchcast.git@develop#egg=torchcast'
+        'torchcast @ git+https://github.com/strongio/torchcast.git@develop#egg=torchcast',
+        'mock'
     ]
 )
