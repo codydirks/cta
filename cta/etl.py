@@ -1,23 +1,30 @@
 import os
 import pandas as pd
-from cta.config import RAW_DATA_DIR, PROCESSED_DATA_DIR
+from cta.config import (
+    RAW_DATA_DIR, PROCESSED_DATA_DIR,
+    SODAPY_APP_TOKEN, SODAPY_API_KEY, SODAPY_API_SECRET
+)
 
 from sodapy import Socrata
 
-API_ENDPOINT = 'data.cityofchicago.org'
-
 
 def fetch_dataframe_from_resource_id(resource_id, limit: int = None):
-    client = Socrata("data.cityofchicago.org", None)
-    kwargs = {'content_type': 'csv'}
-    if limit is not None:
-        limit = int(limit)
-        kwargs['limit'] = limit
-        results = client.get(resource_id, **kwargs)
-    else:
-        results = sum(client.get_all(resource_id, **kwargs), [])
+    client_kwargs = {
+        'app_token': SODAPY_APP_TOKEN,
+        'username': SODAPY_API_KEY,
+        'password': SODAPY_API_SECRET
+    }
+    with Socrata("data.cityofchicago.org", **client_kwargs) as client:
+        kwargs = {'content_type': 'csv'}
+        if limit is not None:
+            limit = int(limit)
+            kwargs['limit'] = limit
+            results = client.get(resource_id, **kwargs)
+        else:
+            kwargs['limit'] = 1_000_000
+            results = list(client.get_all(resource_id, **kwargs))
     headers = results[0]
-    data = results[1:]
+    data = [i for i in results[1:] if i != headers]
     df = pd.DataFrame.from_records(data, columns=headers)
     return df
 
