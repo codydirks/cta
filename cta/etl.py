@@ -52,7 +52,7 @@ def load_raw_riders_df():
 
 
 def load_processed_df():
-    path = os.path.join(PROCESSED_DATA_DIR, 'daily_ridership.csv')
+    path = os.path.join(PROCESSED_DATA_DIR, 'daily_ridership_df.csv')
     df = pd.read_csv(path, index_col=0)
     df['date'] = pd.to_datetime(df['date'])
     return df

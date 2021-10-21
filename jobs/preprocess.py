@@ -16,7 +16,7 @@ def main():
 
     os.makedirs(PROCESSED_DATA_DIR, exist_ok=True)
 
-    output_path = os.path.join(PROCESSED_DATA_DIR, 'daily_ridership.csv')
+    output_path = os.path.join(PROCESSED_DATA_DIR, 'daily_ridership_df.csv')
     df.to_csv(output_path)
 
 
